@@ -458,7 +458,7 @@ var IMG_QRPIX  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAFoAQAAAABS
       <button type="button" id="btnRemover" title="Remover">&times;</button>
     </div>
 
-    <p class="dica" style="margin-top:12px">Não se preocupe em anexar agora — pode se inscrever tranquila e enviar depois pelo WhatsApp, ou nem enviar. O Pastor e o Tesoureiro vão fazer uma conferência simples dos pagamentos antes do encontro.</p>
+    <p class="dica" style="margin-top:12px">Não se preocupe em anexar agora — pode se inscrever tranquila e enviar depois pelo WhatsApp, ou nem enviar. (Anexo para simples conferência e gestão das inscrições.)</p>
 
     <div style="margin-top:26px">
       <button type="submit" class="btn" id="btnEnviar">Garantir minha vaga</button>
@@ -729,8 +729,8 @@ var IMG_QRPIX  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAFoAQAAAABS
     $('form').style.display = 'none';
     $('protocolo').textContent = r.protocolo;
     $('msgSucesso').textContent = r.comComprovante
-      ? 'Recebemos seus dados e o comprovante, obrigada! O Pastor e o Tesoureiro vão fazer uma conferência simples do pagamento antes do encontro.'
-      : 'Sua vaga está reservada! Não precisa se preocupar agora — o Pastor e o Tesoureiro vão conferir os pagamentos antes do encontro. Se quiser adiantar, envie o comprovante pelo WhatsApp quando puder.';
+      ? 'Recebemos seus dados e o comprovante, obrigada! (Anexo para simples conferência e gestão das inscrições.)'
+      : 'Sua vaga está reservada! O comprovante é opcional — serve só para uma simples conferência e gestão das inscrições. Se quiser, envie pelo WhatsApp quando puder.';
     $('sucesso').classList.add('on');
 
     var comprovante = [
