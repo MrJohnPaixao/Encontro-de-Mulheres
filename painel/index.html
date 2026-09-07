@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Painel • Encontro de Mulheres</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   ENCONTRO DE MULHERES — ADEC ESPLANADA
+   Identidade: vinho profundo + rosé, tipografia do card
+     Prata   -> "Encontro"
+     Lora    -> tagline, data, valor, preleitora
+     Archivo -> caixa alta espaçada (rótulos, botões, títulos)
+   ========================================================= */
+
+:root{
+  --vinho-noite:#140309;
+  --vinho-fundo:#1C040A;
+  --vinho:#2E080D;
+  --vinho-claro:#3D0A11;
+  --vinho-chapa:#5A0A19;
+  --carmim:#8C1226;
+  --carmim-claro:#B81B33;
+  --rose:#D18089;
+  --rose-claro:#F0B7BD;
+  --creme:#FBEDEE;
+  --creme-suave:#C9A3A8;
+  --verde:#7FD8A2;
+  --amarelo:#F0B77E;
+  --vermelho:#FF8A8A;
+  --borda:rgba(209,128,137,.20);
+  --borda-forte:rgba(209,128,137,.38);
+  --raio:14px;
+  --sombra:0 20px 48px rgba(0,0,0,.55);
+  --f-titulo:'Prata',Georgia,'Times New Roman',serif;
+  --f-serif:'Lora',Georgia,'Times New Roman',serif;
+  --f-sans:'Archivo','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--f-sans);
+  background:var(--vinho-noite);
+  color:var(--creme);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+
+.fundo{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 50% -6%, rgba(140,18,38,.42), transparent 64%),
+    radial-gradient(620px 440px at 8% 104%, rgba(90,10,25,.5), transparent 62%),
+    radial-gradient(520px 400px at 96% 76%, rgba(209,128,137,.10), transparent 62%);
+}
+
+.wrap{position:relative; z-index:1; max-width:660px; margin:0 auto; padding:20px 16px 60px}
+.wrap-largo{max-width:1180px}
+
+/* ---------------- Arte do evento ---------------- */
+.arte{
+  border-radius:var(--raio); overflow:hidden; line-height:0;
+  border:1px solid var(--borda); box-shadow:var(--sombra);
+}
+.arte img{width:100%; height:auto; display:block}
+
+/* ---------------- Cabeçalho ---------------- */
+.hero{text-align:center; padding:26px 6px 6px}
+.hero .tag{
+  font-family:var(--f-serif); font-style:italic; font-size:clamp(17px,4.6vw,21px);
+  color:var(--rose); margin:0 0 6px;
+}
+.hero h1{
+  font-family:var(--f-titulo); font-weight:400;
+  font-size:clamp(42px,12vw,68px); line-height:.98; margin:0;
+  background:linear-gradient(175deg,#FFF6F6 12%,#F6D2D6 52%,#D9909A 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero h2{
+  font-family:var(--f-sans); font-weight:700; margin:6px 0 0;
+  font-size:clamp(16px,4.6vw,23px); letter-spacing:.22em; text-transform:uppercase; color:#fff;
+}
+.subtema{
+  font-family:var(--f-sans); font-weight:500; margin:10px 0 0;
+  font-size:clamp(11px,3.1vw,13px); letter-spacing:.26em; text-transform:uppercase; color:var(--rose);
+}
+.risco{width:56px; height:1px; background:var(--borda-forte); margin:18px auto}
+
+.data{
+  font-family:var(--f-serif); font-weight:500; font-size:clamp(23px,6.4vw,31px);
+  margin:0; color:#fff; letter-spacing:.4px;
+}
+.data em{font-style:italic; color:var(--rose-claro); font-weight:400}
+.local{
+  font-family:var(--f-sans); font-weight:600; margin:9px 0 0;
+  font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--creme-suave);
+}
+.local span{display:block; letter-spacing:.08em; text-transform:none; font-weight:400; font-size:13px; margin-top:3px}
+
+.faixa{
+  display:flex; align-items:stretch; gap:0; margin:22px auto 0; max-width:420px;
+  border:1px solid var(--borda-forte); border-radius:12px; overflow:hidden;
+  background:linear-gradient(180deg,rgba(90,10,25,.55),rgba(46,8,13,.4));
+}
+.faixa .bloco{flex:1; padding:12px 14px; text-align:center}
+.faixa .bloco + .bloco{border-left:1px solid var(--borda)}
+.faixa .rot{
+  font-family:var(--f-sans); font-weight:600; font-size:9.5px;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--creme-suave);
+}
+.faixa .val{font-family:var(--f-serif); font-weight:600; font-size:21px; color:#fff; margin-top:3px; white-space:nowrap}
+.faixa .val em{font-style:italic; color:var(--rose-claro); font-weight:400}
+
+/* ---------------- Vagas ---------------- */
+.vagas{
+  margin-top:18px; display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--f-sans); font-size:11px; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+  padding:8px 16px; border-radius:999px;
+  border:1px solid var(--borda-forte); background:rgba(255,255,255,.04); color:var(--creme-suave);
+}
+.vagas .pt{width:7px;height:7px;border-radius:50%;background:var(--verde);box-shadow:0 0 10px var(--verde)}
+.vagas.alerta{border-color:rgba(240,183,126,.5); color:var(--amarelo)}
+.vagas.alerta .pt{background:var(--amarelo); box-shadow:0 0 10px var(--amarelo)}
+.vagas.esgotado{border-color:rgba(255,138,138,.5); color:var(--vermelho)}
+.vagas.esgotado .pt{background:var(--vermelho); box-shadow:0 0 10px var(--vermelho)}
+
+/* ---------------- Cartões ---------------- */
+.cartao{
+  background:linear-gradient(180deg,rgba(61,10,17,.92),rgba(20,3,9,.92));
+  border:1px solid var(--borda); border-radius:var(--raio);
+  box-shadow:var(--sombra); padding:26px 20px; margin-top:24px;
+}
+.secao{
+  font-family:var(--f-sans); font-weight:700; font-size:12px;
+  letter-spacing:.24em; text-transform:uppercase; color:var(--rose);
+  margin:0 0 4px; display:flex; align-items:center; gap:10px;
+}
+.secao .n{
+  width:22px;height:22px;border-radius:6px;flex:none;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--carmim),var(--carmim-claro)); color:#fff; font-size:11px;
+}
+.secao-sub{
+  font-family:var(--f-serif); font-size:14px; color:var(--creme-suave);
+  margin:0 0 18px; padding-left:32px;
+}
+.divisor{height:1px; background:linear-gradient(90deg,transparent,var(--borda-forte),transparent); margin:28px 0}
+
+/* ---------------- Campos ---------------- */
+.campo{margin-bottom:18px}
+.campo label{
+  display:block; font-family:var(--f-sans); font-weight:600; font-size:10.5px;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--creme-suave); margin-bottom:8px;
+}
+.dica{font-family:var(--f-serif); font-size:13px; color:var(--creme-suave); margin:7px 0 0; opacity:.85}
+input[type=text],input[type=tel]{
+  width:100%; padding:14px 15px; font-size:16px; font-family:var(--f-sans);
+  color:var(--creme); background:rgba(0,0,0,.32);
+  border:1px solid var(--borda-forte); border-radius:11px; outline:none;
+  transition:border-color .15s, box-shadow .15s, background .15s;
+}
+input::placeholder{color:rgba(201,163,168,.5)}
+input:focus{
+  border-color:var(--rose); background:rgba(0,0,0,.45);
+  box-shadow:0 0 0 3px rgba(209,128,137,.16);
+}
+.erro-campo{border-color:var(--vermelho)!important; box-shadow:0 0 0 3px rgba(255,138,138,.15)!important}
+
+/* ---------------- PIX ---------------- */
+.pix{display:grid; gap:16px; justify-items:center; text-align:center}
+.qr{background:#fff; padding:11px; border-radius:12px; line-height:0; box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.qr img{width:190px; height:190px; display:block; image-rendering:pixelated}
+.pix-dados{width:100%; font-size:13.5px}
+.pix-dados .linha{display:flex; justify-content:space-between; gap:12px; align-items:baseline; padding:10px 0; border-bottom:1px solid var(--borda)}
+.pix-dados .linha:last-child{border-bottom:none}
+.pix-dados .rot{font-family:var(--f-sans); font-size:9.5px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--creme-suave)}
+.pix-dados .val{font-family:var(--f-serif); font-weight:600; color:#fff; text-align:right; word-break:break-all}
+.copia{
+  width:100%; background:rgba(0,0,0,.35); border:1px dashed var(--borda-forte); border-radius:10px;
+  padding:11px 13px; font-family:ui-monospace,'SF Mono',Consolas,monospace; font-size:11px;
+  color:var(--creme-suave); word-break:break-all; text-align:left; max-height:72px; overflow:auto;
+}
+.btn-copiar{
+  width:100%; padding:13px; border-radius:11px; border:1px solid var(--borda-forte);
+  background:rgba(140,18,38,.28); color:var(--rose-claro);
+  font-family:var(--f-sans); font-weight:700; font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  cursor:pointer; transition:.15s;
+}
+.btn-copiar:hover{background:rgba(140,18,38,.48); border-color:var(--rose)}
+.btn-copiar.ok{border-color:var(--verde); color:var(--verde); background:rgba(127,216,162,.12)}
+
+/* ---------------- Upload ---------------- */
+.solta{
+  display:block; width:100%;
+  border:1.5px dashed var(--borda-forte); border-radius:13px; padding:26px 16px; text-align:center;
+  cursor:pointer; transition:.15s; background:rgba(0,0,0,.2);
+}
+.solta:hover,.solta.ativo{border-color:var(--rose); background:rgba(140,18,38,.16)}
+.solta .ic{font-size:26px; display:block; margin-bottom:9px}
+.solta strong{
+  display:block; font-family:var(--f-sans); font-weight:600; font-size:11px;
+  letter-spacing:.18em; text-transform:uppercase; margin-bottom:5px; color:var(--creme);
+}
+.solta span{font-family:var(--f-serif); font-size:13px; color:var(--creme-suave)}
+.solta input{display:none}
+.arquivo{
+  display:none; align-items:center; gap:12px; margin-top:12px; padding:12px 14px;
+  background:rgba(127,216,162,.09); border:1px solid rgba(127,216,162,.3); border-radius:12px;
+}
+.arquivo.on{display:flex}
+.arquivo .mini{width:42px;height:42px;border-radius:8px;object-fit:cover;flex:none;background:#000}
+.arquivo .info{flex:1; min-width:0}
+.arquivo .nome{font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.arquivo .tam{font-size:11.5px; color:var(--creme-suave)}
+.arquivo button{background:none; border:none; color:var(--vermelho); font-size:20px; cursor:pointer; padding:0 4px; line-height:1}
+
+/* ---------------- Botões / avisos ---------------- */
+.btn{
+  width:100%; padding:17px; border:none; border-radius:12px; cursor:pointer;
+  font-family:var(--f-sans); font-size:12.5px; font-weight:700;
+  letter-spacing:.22em; text-transform:uppercase; color:#fff;
+  background:linear-gradient(135deg,var(--vinho-chapa),var(--carmim) 55%,var(--carmim-claro));
+  box-shadow:0 14px 32px rgba(140,18,38,.42); transition:.15s;
+}
+.btn:hover:not(:disabled){transform:translateY(-1px); box-shadow:0 18px 40px rgba(184,27,51,.5)}
+.btn:disabled{opacity:.55; cursor:not-allowed; transform:none}
+.btn-fantasma{
+  background:none; border:1px solid var(--borda-forte); color:var(--creme-suave); box-shadow:none;
+}
+.btn-fantasma:hover:not(:disabled){border-color:var(--rose); color:var(--rose-claro); transform:none; box-shadow:none}
+
+.aviso{
+  display:none; margin-bottom:18px; padding:13px 15px; border-radius:10px;
+  font-family:var(--f-serif); font-size:14px;
+  border:1px solid rgba(255,138,138,.35); background:rgba(255,138,138,.1); color:#FFC2C2;
+}
+.aviso.on{display:block}
+.nota{
+  font-family:var(--f-serif); font-size:12.5px; color:var(--creme-suave);
+  text-align:center; margin-top:16px; line-height:1.5; opacity:.85;
+}
+
+/* ---------------- Sucesso ---------------- */
+.sucesso{display:none; text-align:center; padding:38px 22px}
+.sucesso.on{display:block}
+.sucesso .ic{font-size:44px}
+.sucesso h2{
+  font-family:var(--f-titulo); font-weight:400; margin:14px 0 10px;
+  font-size:34px; color:var(--rose-claro);
+}
+.sucesso p{font-family:var(--f-serif); color:var(--creme-suave); font-size:15px; margin:0 auto 16px; max-width:400px}
+.protocolo{
+  display:inline-block; margin:6px 0 20px; padding:12px 26px; border-radius:10px;
+  border:1px dashed var(--rose); background:rgba(140,18,38,.2);
+  font-family:ui-monospace,Consolas,monospace; font-size:20px; font-weight:700; color:var(--rose-claro);
+  letter-spacing:2px;
+}
+
+/* ---------------- Rodapé ---------------- */
+.rodape{
+  text-align:center; margin-top:32px; font-family:var(--f-sans);
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:rgba(201,163,168,.55); line-height:2;
+}
+.rodape a{color:var(--rose); text-decoration:none; font-weight:600}
+.rodape a:hover{text-decoration:underline}
+
+/* ---------------- Carregando ---------------- */
+.girando{
+  display:inline-block; width:15px; height:15px; margin-right:9px; vertical-align:-3px;
+  border:2.5px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%;
+  animation:gira .7s linear infinite;
+}
+@keyframes gira{to{transform:rotate(360deg)}}
+
+/* ---------------- Painel admin ---------------- */
+.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:20px}
+.kpi{background:linear-gradient(180deg,rgba(61,10,17,.9),rgba(20,3,9,.9)); border:1px solid var(--borda); border-radius:12px; padding:16px 18px}
+.kpi .rot{font-family:var(--f-sans); font-size:9.5px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--creme-suave)}
+.kpi .num{font-family:var(--f-serif); font-size:28px; font-weight:600; margin-top:5px; color:#fff}
+.kpi.ok .num{color:var(--verde)}
+.kpi.pend .num{color:var(--amarelo)}
+
+.barra-ferramentas{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; align-items:center}
+.barra-ferramentas input[type=text]{flex:1; min-width:200px; padding:11px 13px; font-size:14px}
+.mini-btn{
+  padding:11px 15px; border-radius:9px; border:1px solid var(--borda-forte); background:rgba(0,0,0,.3);
+  color:var(--creme); font-family:var(--f-sans); font-size:10.5px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; cursor:pointer; transition:.15s;
+  text-decoration:none; display:inline-block;
+}
+.mini-btn:hover{border-color:var(--rose); color:var(--rose-claro)}
+
+.tabela-box{overflow-x:auto; border:1px solid var(--borda); border-radius:12px; background:rgba(46,8,13,.6)}
+table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:720px}
+th{
+  text-align:left; padding:13px 14px; font-family:var(--f-sans); font-size:9.5px; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--creme-suave);
+  background:rgba(0,0,0,.3); border-bottom:1px solid var(--borda); white-space:nowrap;
+}
+td{padding:12px 14px; border-bottom:1px solid rgba(209,128,137,.08); vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.025)}
+.tag{
+  display:inline-block; padding:4px 11px; border-radius:999px; font-family:var(--f-sans);
+  font-size:9.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; white-space:nowrap;
+}
+.tag.pago{background:rgba(127,216,162,.15); color:var(--verde); border:1px solid rgba(127,216,162,.32)}
+.tag.pend{background:rgba(240,183,126,.13); color:var(--amarelo); border:1px solid rgba(240,183,126,.3)}
+.vazio{text-align:center; padding:52px 20px; font-family:var(--f-serif); color:var(--creme-suave)}
+
+@media(max-width:520px){
+  .wrap{padding:16px 13px 44px}
+  .cartao{padding:22px 16px}
+  .qr img{width:168px;height:168px}
+}
+</style>
+</head>
+<body>
+<div class="fundo"></div>
+
+<!-- ===== tela de senha ===== -->
+<main class="wrap" id="telaSenha" style="max-width:400px">
+  <div style="height:8vh"></div>
+  <section class="cartao" style="text-align:center">
+    <p class="subtema" style="margin:0 0 8px">Painel da organização</p>
+    <h1 style="font-family:var(--f-titulo);font-weight:400;font-size:32px;margin:0 0 6px;color:var(--rose-claro)">Encontro de Mulheres</h1>
+    <p class="local" style="margin:0 0 26px">ADEC Esplanada</p>
+    <div id="avisoSenha" class="aviso" style="text-align:left"></div>
+    <div class="campo" style="text-align:left">
+      <label for="senha">Senha de acesso</label>
+      <input type="password" id="senha" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button type="button" class="btn" id="entrar">Entrar</button>
+    <p class="nota">Área restrita à equipe de organização.</p>
+  </section>
+</main>
+
+<!-- ===== painel ===== -->
+<main class="wrap wrap-largo" id="telaPainel" style="display:none">
+  <header style="text-align:center;padding:14px 0 26px">
+    <p class="subtema" style="margin:0 0 6px">Painel da organização</p>
+    <h1 style="font-family:var(--f-titulo);font-weight:400;font-size:clamp(30px,6vw,44px);margin:0;color:var(--rose-claro)">Encontro de Mulheres</h1>
+    <p class="local" style="margin-top:10px">ADEC Esplanada · 07 de Outubro, 19h</p>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi">     <div class="rot">Inscritas</div>       <div class="num" id="kTotal">–</div></div>
+    <div class="kpi ok">  <div class="rot">Pagas</div>           <div class="num" id="kPagas">–</div></div>
+    <div class="kpi pend"><div class="rot">Pendentes</div>       <div class="num" id="kPend">–</div></div>
+    <div class="kpi">     <div class="rot">Arrecadado</div>      <div class="num" id="kValor">–</div></div>
+    <div class="kpi">     <div class="rot">Vagas restantes</div> <div class="num" id="kVagas">–</div></div>
+  </div>
+
+  <div class="barra-ferramentas">
+    <input type="text" id="busca" placeholder="Buscar por nome, celular ou protocolo...">
+    <button class="mini-btn" id="fTodas">Todas</button>
+    <button class="mini-btn" id="fPend">Pendentes</button>
+    <button class="mini-btn" id="fPagas">Pagas</button>
+    <button class="mini-btn" id="btnCSV">Exportar CSV</button>
+    <a class="mini-btn" id="linkPlanilha" target="_blank" rel="noopener">Planilha</a>
+    <a class="mini-btn" id="linkPasta" target="_blank" rel="noopener">Comprovantes</a>
+    <button class="mini-btn" id="btnRecarregar">Atualizar</button>
+    <button class="mini-btn" id="btnSair">Sair</button>
+  </div>
+
+  <div class="tabela-box">
+    <table>
+      <thead>
+        <tr><th>Protocolo</th><th>Nome</th><th>Celular</th><th>Comprovante</th><th>Status</th><th>Inscrição</th><th></th></tr>
+      </thead>
+      <tbody id="corpo">
+        <tr><td colspan="7" class="vazio"><span class="girando"></span> Carregando...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="rodape">Link privado — não compartilhe fora da equipe de organização.</p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var API = "https://script.google.com/macros/s/AKfycbzzM-sS0KLP8CdpCEMR3ZfVkTyBcWDtMRnvBLrYsAwao0kH2vinn-P0EGgl4vKx4vke/exec";
+
+  var $ = function (id) { return document.getElementById(id); };
+  var dados = [], filtro = 'todas', TOKEN = '';
+
+
+  /* ---------- conversa com o Apps Script ----------
+     Plano A: fetch direto.
+     Plano B: formulário oculto (funciona mesmo se o fetch for bloqueado). */
+  function enviar(dados, cb) {
+    var respondeu = false;
+    try {
+      fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(dados)
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (!respondeu) { respondeu = true; cb(j); } })
+      .catch(function () { if (!respondeu) { respondeu = true; porFormulario(dados, cb); } });
+    } catch (e) {
+      porFormulario(dados, cb);
+    }
+  }
+
+  function porFormulario(dados, cb) {
+    var nome = 'env' + Date.now();
+    var ifr = document.createElement('iframe');
+    ifr.name = nome; ifr.style.display = 'none';
+    document.body.appendChild(ifr);
+
+    var f = document.createElement('form');
+    f.method = 'POST'; f.action = API; f.target = nome; f.style.display = 'none';
+    var i = document.createElement('input');
+    i.type = 'hidden'; i.name = 'payload'; i.value = JSON.stringify(dados);
+    f.appendChild(i);
+    document.body.appendChild(f);
+
+    var pronto = false;
+    function ouvir(ev) {
+      if (typeof ev.data !== 'string') return;
+      var j; try { j = JSON.parse(ev.data); } catch (e) { return; }
+      pronto = true;
+      window.removeEventListener('message', ouvir);
+      limpar(); cb(j);
+    }
+    function limpar() {
+      setTimeout(function () {
+        if (f.parentNode) f.parentNode.removeChild(f);
+        if (ifr.parentNode) ifr.parentNode.removeChild(ifr);
+      }, 1000);
+    }
+    window.addEventListener('message', ouvir);
+    f.submit();
+    setTimeout(function () {
+      if (!pronto) {
+        window.removeEventListener('message', ouvir);
+        limpar();
+        cb({ ok: false, msg: 'O servidor não respondeu. Verifique a internet e tente de novo.' });
+      }
+    }, 45000);
+  }
+
+  /* leitura de dados via JSONP (nunca é barrado por navegador) */
+  var _jsonp = 0;
+  function buscar(params, cb) {
+    var fn = '__resp' + (++_jsonp);
+    var s = document.createElement('script');
+    var timer = setTimeout(function () { falhou(); }, 20000);
+    window[fn] = function (dados) { clearTimeout(timer); limpar(); cb(null, dados); };
+    function falhou() { limpar(); cb(new Error('sem resposta')); }
+    function limpar() {
+      try { delete window[fn]; } catch (e) { window[fn] = undefined; }
+      if (s.parentNode) s.parentNode.removeChild(s);
+    }
+    var q = ['callback=' + fn, 't=' + Date.now()];
+    for (var k in params) if (params[k] !== undefined && params[k] !== null) {
+      q.push(encodeURIComponent(k) + '=' + encodeURIComponent(params[k]));
+    }
+    s.src = API + '?' + q.join('&');
+    s.onerror = function () { clearTimeout(timer); falhou(); };
+    document.head.appendChild(s);
+  }
+
+
+  /* ---------- login ---------- */
+  function tentarEntrar(senha) {
+    $('avisoSenha').classList.remove('on');
+    $('entrar').disabled = true;
+    $('entrar').innerHTML = '<span class="girando"></span>Entrando';
+    buscar({ api: 'lista', token: senha }, function (err, r) {
+      $('entrar').disabled = false;
+      $('entrar').textContent = 'Entrar';
+      if (err || !r || r.ok === false) {
+        $('avisoSenha').textContent = (r && r.msg) ? r.msg : 'Senha incorreta.';
+        $('avisoSenha').classList.add('on');
+        return;
+      }
+      TOKEN = senha;
+      try { sessionStorage.setItem('tk', senha); } catch (e) {}
+      $('telaSenha').style.display = 'none';
+      $('telaPainel').style.display = 'block';
+      aplicar(r);
+    });
+  }
+
+  $('entrar').addEventListener('click', function () {
+    var v = $('senha').value.trim();
+    if (v) tentarEntrar(v);
+  });
+  $('senha').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { var v = $('senha').value.trim(); if (v) tentarEntrar(v); }
+  });
+  $('btnSair').addEventListener('click', function () {
+    try { sessionStorage.removeItem('tk'); } catch (e) {}
+    location.reload();
+  });
+
+  /* ---------- dados ---------- */
+  function carregar() {
+    $('corpo').innerHTML = '<tr><td colspan="7" class="vazio"><span class="girando"></span> Carregando...</td></tr>';
+    buscar({ api: 'lista', token: TOKEN }, function (err, r) {
+      if (err || !r || r.ok === false) {
+        $('corpo').innerHTML = '<tr><td colspan="7" class="vazio">Não consegui carregar. Tente Atualizar.</td></tr>';
+        return;
+      }
+      aplicar(r);
+    });
+  }
+
+  function aplicar(r) {
+    dados = r.lista || [];
+    $('kTotal').textContent = r.resumo.total;
+    $('kPagas').textContent = r.resumo.pagas;
+    $('kPend').textContent  = r.resumo.pendentes;
+    $('kValor').textContent = 'R$ ' + r.resumo.arrecadado.toFixed(2).replace('.', ',');
+    $('kVagas').textContent = r.resumo.vagas.ilimitado ? '∞' : r.resumo.vagas.restantes;
+    $('linkPlanilha').href  = r.links.planilha;
+    $('linkPasta').href     = r.links.pasta;
+    desenhar();
+  }
+
+  function visiveis() {
+    var termo = $('busca').value.toLowerCase().trim();
+    return dados.filter(function (i) {
+      var pago = i.status === 'Pago';
+      if (filtro === 'pagas' && !pago) return false;
+      if (filtro === 'pendentes' && pago) return false;
+      if (!termo) return true;
+      return [i.nome, i.telefone, i.protocolo].join(' ').toLowerCase().indexOf(termo) > -1;
+    });
+  }
+
+  function esc(t) {
+    return String(t == null ? '' : t)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function desenhar() {
+    var lista = visiveis();
+    if (!lista.length) {
+      $('corpo').innerHTML = '<tr><td colspan="7" class="vazio">Nenhuma inscrição encontrada.</td></tr>';
+      return;
+    }
+    $('corpo').innerHTML = lista.map(function (i) {
+      var pago = i.status === 'Pago';
+      var zap  = 'https://wa.me/55' + String(i.telefone).replace(/\D/g, '');
+      return '<tr>' +
+        '<td style="font-family:ui-monospace,monospace;font-size:12.5px;color:var(--rose)">' + esc(i.protocolo) + '</td>' +
+        '<td style="font-family:var(--f-serif);font-size:15px">' + esc(i.nome) + '</td>' +
+        '<td><a href="' + zap + '" target="_blank" rel="noopener" style="color:var(--creme);text-decoration:none">' + esc(i.telefone) + '</a></td>' +
+        '<td>' + (i.comprovante
+          ? '<a href="' + esc(i.comprovante) + '" target="_blank" rel="noopener" style="color:var(--rose-claro)">ver arquivo</a>'
+          : '<span style="color:var(--creme-suave)">—</span>') + '</td>' +
+        '<td><span class="tag ' + (pago ? 'pago' : 'pend') + '">' + (pago ? 'Pago' : 'Pendente') + '</span></td>' +
+        '<td style="font-size:12.5px;color:var(--creme-suave)">' + esc(i.dataHora) + '</td>' +
+        '<td style="white-space:nowrap"><button class="mini-btn" data-acao="status" data-linha="' + i.linha +
+          '" data-novo="' + (pago ? 'Aguardando conferência' : 'Pago') + '">' + (pago ? 'Desfazer' : 'Confirmar') + '</button></td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  $('corpo').addEventListener('click', function (e) {
+    var btn = e.target.closest('button[data-acao=status]');
+    if (!btn) return;
+    btn.disabled = true;
+    btn.textContent = '...';
+    enviar({ acao: 'status', token: TOKEN, linha: Number(btn.dataset.linha), status: btn.dataset.novo },
+      function () { carregar(); });
+  });
+
+  $('busca').addEventListener('input', desenhar);
+  $('fTodas').addEventListener('click', function () { filtro = 'todas';     desenhar(); });
+  $('fPend').addEventListener('click',  function () { filtro = 'pendentes'; desenhar(); });
+  $('fPagas').addEventListener('click', function () { filtro = 'pagas';     desenhar(); });
+  $('btnRecarregar').addEventListener('click', carregar);
+
+  $('btnCSV').addEventListener('click', function () {
+    var cab = ['Protocolo', 'Data/Hora', 'Nome', 'Celular', 'Status', 'Comprovante'];
+    var linhas = visiveis().map(function (i) {
+      return [i.protocolo, i.dataHora, i.nome, i.telefone, i.status, i.comprovante];
+    });
+    var csv = [cab].concat(linhas).map(function (l) {
+      return l.map(function (c) { return '"' + String(c == null ? '' : c).replace(/"/g, '""') + '"'; }).join(';');
+    }).join('\r\n');
+    var blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'inscricoes.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+
+  /* entra direto se a senha já estiver guardada nesta aba */
+  var guardado = '';
+  try { guardado = sessionStorage.getItem('tk') || ''; } catch (e) {}
+  if (guardado) tentarEntrar(guardado); else $('senha').focus();
+})();
+</script>
+</body>
+</html>
