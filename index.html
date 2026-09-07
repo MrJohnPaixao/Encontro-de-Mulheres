@@ -439,8 +439,8 @@ var IMG_QRPIX  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAFoAQAAAABS
 
     <div class="divisor"></div>
 
-    <p class="secao"><span class="n">3</span> Comprovante</p>
-    <p class="secao-sub">Anexe o print do PIX para confirmarmos na hora.</p>
+    <p class="secao"><span class="n">3</span> Comprovante (opcional)</p>
+    <p class="secao-sub">Se quiser, anexe o print do PIX para agilizar. Não é obrigatório.</p>
 
     <label class="solta" id="solta">
       <span class="ic">📎</span>
@@ -458,7 +458,7 @@ var IMG_QRPIX  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAFoAQAAAABS
       <button type="button" id="btnRemover" title="Remover">&times;</button>
     </div>
 
-    <p class="dica" style="margin-top:12px">Ainda não pagou? Pode se inscrever agora e enviar o comprovante depois pelo WhatsApp — sua vaga fica reservada como pendente.</p>
+    <p class="dica" style="margin-top:12px">Não se preocupe em anexar agora — pode se inscrever tranquila e enviar depois pelo WhatsApp, ou nem enviar. O Pastor e o Tesoureiro vão fazer uma conferência simples dos pagamentos antes do encontro.</p>
 
     <div style="margin-top:26px">
       <button type="submit" class="btn" id="btnEnviar">Garantir minha vaga</button>
@@ -729,8 +729,8 @@ var IMG_QRPIX  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAFoAQAAAABS
     $('form').style.display = 'none';
     $('protocolo').textContent = r.protocolo;
     $('msgSucesso').textContent = r.comComprovante
-      ? 'Recebemos seus dados e o comprovante. A organização vai conferir o pagamento e falar com você pelo WhatsApp.'
-      : 'Sua vaga está reservada. Envie o comprovante do PIX pelo WhatsApp para confirmarmos o pagamento.';
+      ? 'Recebemos seus dados e o comprovante, obrigada! O Pastor e o Tesoureiro vão fazer uma conferência simples do pagamento antes do encontro.'
+      : 'Sua vaga está reservada! Não precisa se preocupar agora — o Pastor e o Tesoureiro vão conferir os pagamentos antes do encontro. Se quiser adiantar, envie o comprovante pelo WhatsApp quando puder.';
     $('sucesso').classList.add('on');
 
     var comprovante = [
@@ -743,7 +743,7 @@ var IMG_QRPIX  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAFoAQAAAABS
       '',
       r.comComprovante
         ? 'Comprovante já enviado, só avisando! 🙌'
-        : 'Vou enviar o comprovante do PIX por aqui.'
+        : 'Vou enviar o comprovante por aqui quando puder — sem pressa!'
     ].join('\n');
     $('linkZap').href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(comprovante);
 
