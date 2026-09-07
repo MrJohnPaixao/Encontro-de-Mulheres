@@ -293,6 +293,7 @@ input:focus{
 
 .barra-ferramentas{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; align-items:center}
 .barra-ferramentas input[type=text]{flex:1; min-width:200px; padding:11px 13px; font-size:14px}
+.grupo-botoes{display:flex; flex-wrap:wrap; gap:10px}
 .mini-btn{
   padding:11px 15px; border-radius:9px; border:1px solid var(--borda-forte); background:rgba(0,0,0,.3);
   color:var(--creme); font-family:var(--f-sans); font-size:10.5px; font-weight:600;
@@ -323,6 +324,38 @@ tr:hover td{background:rgba(255,255,255,.025)}
   .wrap{padding:16px 13px 44px}
   .cartao{padding:22px 16px}
   .qr img{width:168px;height:168px}
+}
+
+/* ---------------- Painel no celular ---------------- */
+@media(max-width:760px){
+  .kpis{grid-template-columns:repeat(2,1fr); gap:10px}
+  .kpi{padding:13px 14px}
+  .kpi .num{font-size:22px}
+
+  .barra-ferramentas{flex-direction:column; align-items:stretch}
+  .barra-ferramentas input[type=text]{min-width:0}
+  .grupo-botoes .mini-btn{flex:1 1 calc(50% - 5px); text-align:center}
+
+  .tabela-box{overflow-x:visible; border:none; background:none}
+  table{min-width:0}
+  thead{display:none}
+  tbody{display:block}
+  tr{
+    display:block; margin-bottom:12px; padding:4px 14px; border-radius:12px;
+    border:1px solid var(--borda); background:linear-gradient(180deg,rgba(61,10,17,.9),rgba(20,3,9,.9));
+  }
+  tr:hover td{background:none}
+  td{
+    display:flex; justify-content:space-between; align-items:center; gap:14px;
+    padding:10px 0; border-bottom:1px solid rgba(209,128,137,.08); white-space:normal; text-align:right;
+  }
+  td:last-child{border-bottom:none; justify-content:center}
+  td:last-child .mini-btn{width:100%}
+  td::before{
+    content:attr(data-label); flex:none; font-family:var(--f-sans); font-size:9px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--creme-suave); text-align:left;
+  }
+  .vazio{display:block; text-align:center}
 }
 </style>
 <!-- ================================================================
@@ -441,7 +474,7 @@ var IMG_QRPIX  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAFoAQAAAABS
     <div class="protocolo" id="protocolo"></div>
     <p>Guarde este protocolo. Nos vemos dia 07 de outubro, às 19h, no Sítio Sabiá.</p>
     <div style="margin-top:22px">
-      <a class="btn" style="display:block;text-decoration:none;box-sizing:border-box;text-align:center" id="linkZap" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a class="btn" style="display:block;text-decoration:none;box-sizing:border-box;text-align:center" id="linkZap" target="_blank" rel="noopener">Enviar confirmação pelo WhatsApp</a>
       <button type="button" class="btn btn-fantasma" style="margin-top:10px" onclick="location.reload()">Fazer outra inscrição</button>
     </div>
   </section>
@@ -453,7 +486,7 @@ var IMG_QRPIX  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAFoAQAAAABS
 
   <footer class="rodape">
     ADEC Esplanada<br>
-    Dúvidas? <a id="zapRodape" href="#" target="_blank" rel="noopener">Pastor Vilmar — ADEC Esplanada</a>
+    Dúvidas? Fale pelo WhatsApp com <a id="zapRodape" href="#" target="_blank" rel="noopener">Pastor Vilmar — ADEC Esplanada</a>
   </footer>
 </main>
 
@@ -699,6 +732,21 @@ var IMG_QRPIX  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAFoAQAAAABS
       ? 'Recebemos seus dados e o comprovante. A organização vai conferir o pagamento e falar com você pelo WhatsApp.'
       : 'Sua vaga está reservada. Envie o comprovante do PIX pelo WhatsApp para confirmarmos o pagamento.';
     $('sucesso').classList.add('on');
+
+    var comprovante = [
+      '🔥 Inscrição confirmada — Encontro de Mulheres',
+      '',
+      'Nome: ' + ($('nome').value.trim() || '-'),
+      'Protocolo: ' + r.protocolo,
+      'Data: 07 de outubro, 19h — Sítio Sabiá',
+      'Valor: R$ 60,00',
+      '',
+      r.comComprovante
+        ? 'Comprovante já enviado, só avisando! 🙌'
+        : 'Vou enviar o comprovante do PIX por aqui.'
+    ].join('\n');
+    $('linkZap').href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(comprovante);
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 })();

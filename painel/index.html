@@ -289,6 +289,7 @@ input:focus{
 
 .barra-ferramentas{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; align-items:center}
 .barra-ferramentas input[type=text]{flex:1; min-width:200px; padding:11px 13px; font-size:14px}
+.grupo-botoes{display:flex; flex-wrap:wrap; gap:10px}
 .mini-btn{
   padding:11px 15px; border-radius:9px; border:1px solid var(--borda-forte); background:rgba(0,0,0,.3);
   color:var(--creme); font-family:var(--f-sans); font-size:10.5px; font-weight:600;
@@ -319,6 +320,38 @@ tr:hover td{background:rgba(255,255,255,.025)}
   .wrap{padding:16px 13px 44px}
   .cartao{padding:22px 16px}
   .qr img{width:168px;height:168px}
+}
+
+/* ---------------- Painel no celular ---------------- */
+@media(max-width:760px){
+  .kpis{grid-template-columns:repeat(2,1fr); gap:10px}
+  .kpi{padding:13px 14px}
+  .kpi .num{font-size:22px}
+
+  .barra-ferramentas{flex-direction:column; align-items:stretch}
+  .barra-ferramentas input[type=text]{min-width:0}
+  .grupo-botoes .mini-btn{flex:1 1 calc(50% - 5px); text-align:center}
+
+  .tabela-box{overflow-x:visible; border:none; background:none}
+  table{min-width:0}
+  thead{display:none}
+  tbody{display:block}
+  tr{
+    display:block; margin-bottom:12px; padding:4px 14px; border-radius:12px;
+    border:1px solid var(--borda); background:linear-gradient(180deg,rgba(61,10,17,.9),rgba(20,3,9,.9));
+  }
+  tr:hover td{background:none}
+  td{
+    display:flex; justify-content:space-between; align-items:center; gap:14px;
+    padding:10px 0; border-bottom:1px solid rgba(209,128,137,.08); white-space:normal; text-align:right;
+  }
+  td:last-child{border-bottom:none; justify-content:center}
+  td:last-child .mini-btn{width:100%}
+  td::before{
+    content:attr(data-label); flex:none; font-family:var(--f-sans); font-size:9px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--creme-suave); text-align:left;
+  }
+  .vazio{display:block; text-align:center}
 }
 </style>
 </head>
@@ -360,14 +393,16 @@ tr:hover td{background:rgba(255,255,255,.025)}
 
   <div class="barra-ferramentas">
     <input type="text" id="busca" placeholder="Buscar por nome, celular ou protocolo...">
-    <button class="mini-btn" id="fTodas">Todas</button>
-    <button class="mini-btn" id="fPend">Pendentes</button>
-    <button class="mini-btn" id="fPagas">Pagas</button>
-    <button class="mini-btn" id="btnCSV">Exportar CSV</button>
-    <a class="mini-btn" id="linkPlanilha" target="_blank" rel="noopener">Planilha</a>
-    <a class="mini-btn" id="linkPasta" target="_blank" rel="noopener">Comprovantes</a>
-    <button class="mini-btn" id="btnRecarregar">Atualizar</button>
-    <button class="mini-btn" id="btnSair">Sair</button>
+    <div class="grupo-botoes">
+      <button class="mini-btn" id="fTodas">Todas</button>
+      <button class="mini-btn" id="fPend">Pendentes</button>
+      <button class="mini-btn" id="fPagas">Pagas</button>
+      <button class="mini-btn" id="btnCSV">Exportar CSV</button>
+      <a class="mini-btn" id="linkPlanilha" target="_blank" rel="noopener">Planilha</a>
+      <a class="mini-btn" id="linkPasta" target="_blank" rel="noopener">Comprovantes</a>
+      <button class="mini-btn" id="btnRecarregar">Atualizar</button>
+      <button class="mini-btn" id="btnSair">Sair</button>
+    </div>
   </div>
 
   <div class="tabela-box">
@@ -556,14 +591,14 @@ tr:hover td{background:rgba(255,255,255,.025)}
       var pago = i.status === 'Pago';
       var zap  = 'https://wa.me/55' + String(i.telefone).replace(/\D/g, '');
       return '<tr>' +
-        '<td style="font-family:ui-monospace,monospace;font-size:12.5px;color:var(--rose)">' + esc(i.protocolo) + '</td>' +
-        '<td style="font-family:var(--f-serif);font-size:15px">' + esc(i.nome) + '</td>' +
-        '<td><a href="' + zap + '" target="_blank" rel="noopener" style="color:var(--creme);text-decoration:none">' + esc(i.telefone) + '</a></td>' +
-        '<td>' + (i.comprovante
+        '<td data-label="Protocolo" style="font-family:ui-monospace,monospace;font-size:12.5px;color:var(--rose)">' + esc(i.protocolo) + '</td>' +
+        '<td data-label="Nome" style="font-family:var(--f-serif);font-size:15px">' + esc(i.nome) + '</td>' +
+        '<td data-label="Celular"><a href="' + zap + '" target="_blank" rel="noopener" style="color:var(--creme);text-decoration:none">' + esc(i.telefone) + '</a></td>' +
+        '<td data-label="Comprovante">' + (i.comprovante
           ? '<a href="' + esc(i.comprovante) + '" target="_blank" rel="noopener" style="color:var(--rose-claro)">ver arquivo</a>'
           : '<span style="color:var(--creme-suave)">—</span>') + '</td>' +
-        '<td><span class="tag ' + (pago ? 'pago' : 'pend') + '">' + (pago ? 'Pago' : 'Pendente') + '</span></td>' +
-        '<td style="font-size:12.5px;color:var(--creme-suave)">' + esc(i.dataHora) + '</td>' +
+        '<td data-label="Status"><span class="tag ' + (pago ? 'pago' : 'pend') + '">' + (pago ? 'Pago' : 'Pendente') + '</span></td>' +
+        '<td data-label="Inscrição" style="font-size:12.5px;color:var(--creme-suave)">' + esc(i.dataHora) + '</td>' +
         '<td style="white-space:nowrap"><button class="mini-btn" data-acao="status" data-linha="' + i.linha +
           '" data-novo="' + (pago ? 'Aguardando conferência' : 'Pago') + '">' + (pago ? 'Desfazer' : 'Confirmar') + '</button></td>' +
       '</tr>';
