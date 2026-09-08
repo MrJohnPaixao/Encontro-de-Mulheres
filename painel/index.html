@@ -297,6 +297,46 @@ input:focus{
   text-decoration:none; display:inline-block;
 }
 .mini-btn:hover{border-color:var(--rose); color:var(--rose-claro)}
+.mini-btn.primario{border-color:var(--verde); color:var(--verde)}
+.mini-btn.primario:hover{background:rgba(127,216,162,.12)}
+
+/* ---------------- Toggle pago/pendente ---------------- */
+.toggle{position:relative; display:inline-block; width:44px; height:24px; flex:none; vertical-align:middle}
+.toggle input{position:absolute; inset:0; opacity:0; margin:0; cursor:pointer; z-index:1}
+.toggle .trilho{
+  position:absolute; inset:0; border-radius:999px; background:rgba(255,255,255,.1);
+  border:1px solid var(--borda-forte); transition:.2s;
+}
+.toggle .bola{
+  position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%;
+  background:var(--creme-suave); transition:.2s; box-shadow:0 2px 6px rgba(0,0,0,.4);
+}
+.toggle input:checked + .trilho{background:rgba(127,216,162,.3); border-color:var(--verde)}
+.toggle input:checked + .trilho .bola{transform:translateX(20px); background:var(--verde)}
+.toggle input:disabled{cursor:not-allowed}
+.toggle input:disabled + .trilho{opacity:.5}
+
+/* ---------------- Anexar comprovante na tabela ---------------- */
+.anexar-btn{
+  font-family:var(--f-sans); font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--rose-claro); background:none; border:1px dashed var(--borda-forte); border-radius:8px;
+  padding:5px 10px; cursor:pointer; display:inline-block;
+}
+.anexar-btn:hover{border-color:var(--rose); background:rgba(140,18,38,.16)}
+.anexar-btn input{display:none}
+
+/* ---------------- Modal ---------------- */
+.modal-fundo{
+  display:none; position:fixed; inset:0; z-index:50; background:rgba(10,2,5,.72);
+  padding:40px 16px; overflow-y:auto;
+}
+.modal-fundo.on{display:block}
+.modal-caixa{max-width:460px; margin:0 auto; position:relative}
+.modal-fechar{
+  position:absolute; top:14px; right:14px; background:none; border:none; color:var(--creme-suave);
+  font-size:24px; cursor:pointer; line-height:1; padding:4px;
+}
+.modal-fechar:hover{color:var(--rose-claro)}
 
 .tabela-box{overflow-x:auto; border:1px solid var(--borda); border-radius:12px; background:rgba(46,8,13,.6)}
 table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:720px}
@@ -346,7 +386,6 @@ tr:hover td{background:rgba(255,255,255,.025)}
     padding:10px 0; border-bottom:1px solid rgba(209,128,137,.08); white-space:normal; text-align:right;
   }
   td:last-child{border-bottom:none; justify-content:center}
-  td:last-child .mini-btn{width:100%}
   td::before{
     content:attr(data-label); flex:none; font-family:var(--f-sans); font-size:9px; font-weight:700;
     letter-spacing:.14em; text-transform:uppercase; color:var(--creme-suave); text-align:left;
@@ -394,6 +433,7 @@ tr:hover td{background:rgba(255,255,255,.025)}
   <div class="barra-ferramentas">
     <input type="text" id="busca" placeholder="Buscar por nome, celular ou protocolo...">
     <div class="grupo-botoes">
+      <button class="mini-btn primario" id="btnNova">+ Nova inscrição</button>
       <button class="mini-btn" id="fTodas">Todas</button>
       <button class="mini-btn" id="fPend">Pendentes</button>
       <button class="mini-btn" id="fPagas">Pagas</button>
@@ -419,11 +459,40 @@ tr:hover td{background:rgba(255,255,255,.025)}
   <p class="rodape">Link privado — não compartilhe fora da equipe de organização.</p>
 </main>
 
+<!-- ===== modal: nova inscrição ===== -->
+<div class="modal-fundo" id="modalNova">
+  <div class="modal-caixa cartao">
+    <button type="button" class="modal-fechar" id="fecharModal" aria-label="Fechar">&times;</button>
+    <p class="secao"><span class="n">+</span> Nova inscrição</p>
+    <p class="secao-sub">Cadastre manualmente quem se inscreveu direto com você.</p>
+
+    <div id="avisoNova" class="aviso"></div>
+
+    <div class="campo">
+      <label for="novaNome">Nome completo</label>
+      <input type="text" id="novaNome" placeholder="Nome da inscrita" autocomplete="off">
+    </div>
+
+    <div class="campo">
+      <label for="novaTelefone">Celular / WhatsApp</label>
+      <input type="tel" id="novaTelefone" placeholder="(31) 90000-0000" inputmode="numeric" autocomplete="off">
+    </div>
+
+    <div class="campo">
+      <label for="novoArquivo">Comprovante (opcional)</label>
+      <input type="file" id="novoArquivo" accept="image/*,application/pdf">
+    </div>
+
+    <button type="button" class="btn" id="btnSalvarNova">Cadastrar inscrição</button>
+  </div>
+</div>
+
 <script>
 (function () {
   'use strict';
 
-  var API = "https://script.google.com/macros/s/AKfycbzzM-sS0KLP8CdpCEMR3ZfVkTyBcWDtMRnvBLrYsAwao0kH2vinn-P0EGgl4vKx4vke/exec";
+  var API    = "https://script.google.com/macros/s/AKfycbzzM-sS0KLP8CdpCEMR3ZfVkTyBcWDtMRnvBLrYsAwao0kH2vinn-P0EGgl4vKx4vke/exec";
+  var MAX_MB = 10;
 
   var $ = function (id) { return document.getElementById(id); };
   var dados = [], filtro = 'todas', TOKEN = '';
@@ -590,29 +659,63 @@ tr:hover td{background:rgba(255,255,255,.025)}
     $('corpo').innerHTML = lista.map(function (i) {
       var pago = i.status === 'Pago';
       var zap  = 'https://wa.me/55' + String(i.telefone).replace(/\D/g, '');
+      var comprovanteHtml = i.comprovante
+        ? '<a href="' + esc(i.comprovante) + '" target="_blank" rel="noopener" style="color:var(--rose-claro)">ver arquivo</a>'
+        : '<label class="anexar-btn">Anexar<input type="file" class="anexoInput" data-linha="' + i.linha + '" accept="image/*,application/pdf"></label>';
       return '<tr>' +
         '<td data-label="Protocolo" style="font-family:ui-monospace,monospace;font-size:12.5px;color:var(--rose)">' + esc(i.protocolo) + '</td>' +
         '<td data-label="Nome" style="font-family:var(--f-serif);font-size:15px">' + esc(i.nome) + '</td>' +
         '<td data-label="Celular"><a href="' + zap + '" target="_blank" rel="noopener" style="color:var(--creme);text-decoration:none">' + esc(i.telefone) + '</a></td>' +
-        '<td data-label="Comprovante">' + (i.comprovante
-          ? '<a href="' + esc(i.comprovante) + '" target="_blank" rel="noopener" style="color:var(--rose-claro)">ver arquivo</a>'
-          : '<span style="color:var(--creme-suave)">—</span>') + '</td>' +
+        '<td data-label="Comprovante">' + comprovanteHtml + '</td>' +
         '<td data-label="Status"><span class="tag ' + (pago ? 'pago' : 'pend') + '">' + (pago ? 'Pago' : 'Pendente') + '</span></td>' +
         '<td data-label="Inscrição" style="font-size:12.5px;color:var(--creme-suave)">' + esc(i.dataHora) + '</td>' +
-        '<td style="white-space:nowrap"><button class="mini-btn" data-acao="status" data-linha="' + i.linha +
-          '" data-novo="' + (pago ? 'Aguardando conferência' : 'Pago') + '">' + (pago ? 'Desfazer' : 'Confirmar') + '</button></td>' +
+        '<td data-label="Pago?" style="text-align:center">' +
+          '<label class="toggle" title="' + (pago ? 'Desmarcar pagamento' : 'Confirmar pagamento') + '">' +
+            '<input type="checkbox" data-acao="status" data-linha="' + i.linha + '"' + (pago ? ' checked' : '') + '>' +
+            '<span class="trilho"><span class="bola"></span></span>' +
+          '</label>' +
+        '</td>' +
       '</tr>';
     }).join('');
   }
 
-  $('corpo').addEventListener('click', function (e) {
-    var btn = e.target.closest('button[data-acao=status]');
-    if (!btn) return;
-    btn.disabled = true;
-    btn.textContent = '...';
-    enviar({ acao: 'status', token: TOKEN, linha: Number(btn.dataset.linha), status: btn.dataset.novo },
-      function () { carregar(); });
+  $('corpo').addEventListener('change', function (e) {
+    var chk = e.target.closest('input[data-acao=status]');
+    if (chk) {
+      chk.disabled = true;
+      var novo = chk.checked ? 'Pago' : 'Aguardando conferência';
+      enviar({ acao: 'status', token: TOKEN, linha: Number(chk.dataset.linha), status: novo },
+        function () { carregar(); });
+      return;
+    }
+    var arq = e.target.closest('input.anexoInput');
+    if (arq && arq.files.length) anexarArquivo(arq.files[0], Number(arq.dataset.linha), arq);
   });
+
+  function anexarArquivo(file, linha, inputEl) {
+    if (file.size > MAX_MB * 1024 * 1024) {
+      alert('O arquivo tem ' + (file.size / 1048576).toFixed(1) + ' MB. O limite é ' + MAX_MB + ' MB.');
+      inputEl.value = '';
+      return;
+    }
+    var label = inputEl.closest('label');
+    if (label) label.textContent = 'Enviando...';
+    var leitor = new FileReader();
+    leitor.onload = function (ev) {
+      var dataUrl = ev.target.result;
+      var arquivo = {
+        nome: file.name,
+        tipo: file.type || 'application/octet-stream',
+        base64: dataUrl.substring(dataUrl.indexOf(',') + 1)
+      };
+      enviar({ acao: 'anexarComprovante', token: TOKEN, linha: linha, arquivo: arquivo }, function (r) {
+        if (!r || r.ok === false) alert((r && r.msg) || 'Não consegui anexar o comprovante.');
+        carregar();
+      });
+    };
+    leitor.onerror = function () { alert('Não consegui ler o arquivo. Tente outro.'); };
+    leitor.readAsDataURL(file);
+  }
 
   $('busca').addEventListener('input', desenhar);
   $('fTodas').addEventListener('click', function () { filtro = 'todas';     desenhar(); });
@@ -633,6 +736,96 @@ tr:hover td{background:rgba(255,255,255,.025)}
     a.href = URL.createObjectURL(blob);
     a.download = 'inscricoes.csv';
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+
+  /* ---------- nova inscrição pelo painel ---------- */
+  $('btnNova').addEventListener('click', function () {
+    $('avisoNova').classList.remove('on');
+    $('novaNome').value = ''; $('novaNome').classList.remove('erro-campo');
+    $('novaTelefone').value = ''; $('novaTelefone').classList.remove('erro-campo');
+    $('novoArquivo').value = '';
+    $('modalNova').classList.add('on');
+    $('novaNome').focus();
+  });
+  $('fecharModal').addEventListener('click', function () { $('modalNova').classList.remove('on'); });
+  $('modalNova').addEventListener('click', function (e) {
+    if (e.target === $('modalNova')) $('modalNova').classList.remove('on');
+  });
+
+  $('novaTelefone').addEventListener('input', function (e) {
+    var v = e.target.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 10)     v = v.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+    else if (v.length > 6) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+    else if (v.length > 2) v = v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+    else if (v.length)     v = v.replace(/(\d{0,2})/, '($1');
+    e.target.value = v;
+  });
+
+  function avisarNova(msg) {
+    $('avisoNova').textContent = msg;
+    $('avisoNova').classList.add('on');
+  }
+
+  function lerArquivoNovo(cb) {
+    var input = $('novoArquivo');
+    if (!input.files.length) return cb(null);
+    var file = input.files[0];
+    if (file.size > MAX_MB * 1024 * 1024) {
+      return cb(null, 'O arquivo tem ' + (file.size / 1048576).toFixed(1) + ' MB. O limite é ' + MAX_MB + ' MB.');
+    }
+    var leitor = new FileReader();
+    leitor.onload = function (ev) {
+      var dataUrl = ev.target.result;
+      cb({
+        nome: file.name,
+        tipo: file.type || 'application/octet-stream',
+        base64: dataUrl.substring(dataUrl.indexOf(',') + 1)
+      });
+    };
+    leitor.onerror = function () { cb(null, 'Não consegui ler o arquivo. Tente outro.'); };
+    leitor.readAsDataURL(file);
+  }
+
+  $('btnSalvarNova').addEventListener('click', function () {
+    $('avisoNova').classList.remove('on');
+    $('novaNome').classList.remove('erro-campo');
+    $('novaTelefone').classList.remove('erro-campo');
+
+    var nome = $('novaNome').value.trim();
+    var telefone = $('novaTelefone').value.trim();
+
+    if (nome.length < 3) {
+      $('novaNome').classList.add('erro-campo');
+      avisarNova('Digite o nome completo.');
+      return;
+    }
+    if (telefone.replace(/\D/g, '').length < 10) {
+      $('novaTelefone').classList.add('erro-campo');
+      avisarNova('Digite um celular válido com DDD.');
+      return;
+    }
+
+    var btn = $('btnSalvarNova');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="girando"></span>Cadastrando';
+
+    lerArquivoNovo(function (arquivo, erro) {
+      if (erro) {
+        btn.disabled = false; btn.textContent = 'Cadastrar inscrição';
+        avisarNova(erro);
+        return;
+      }
+      enviar({ acao: 'inscrever', nome: nome, telefone: telefone, arquivo: arquivo }, function (r) {
+        btn.disabled = false;
+        btn.textContent = 'Cadastrar inscrição';
+        if (!r || r.ok === false) {
+          avisarNova((r && r.msg) || 'Não consegui cadastrar a inscrição.');
+          return;
+        }
+        $('modalNova').classList.remove('on');
+        carregar();
+      });
+    });
   });
 
   /* entra direto se a senha já estiver guardada nesta aba */
