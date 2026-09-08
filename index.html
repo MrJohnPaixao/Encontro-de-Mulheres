@@ -301,6 +301,46 @@ input:focus{
   text-decoration:none; display:inline-block;
 }
 .mini-btn:hover{border-color:var(--rose); color:var(--rose-claro)}
+.mini-btn.primario{border-color:var(--verde); color:var(--verde)}
+.mini-btn.primario:hover{background:rgba(127,216,162,.12)}
+
+/* ---------------- Toggle pago/pendente ---------------- */
+.toggle{position:relative; display:inline-block; width:44px; height:24px; flex:none; vertical-align:middle}
+.toggle input{position:absolute; inset:0; opacity:0; margin:0; cursor:pointer; z-index:1}
+.toggle .trilho{
+  position:absolute; inset:0; border-radius:999px; background:rgba(255,255,255,.1);
+  border:1px solid var(--borda-forte); transition:.2s;
+}
+.toggle .bola{
+  position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%;
+  background:var(--creme-suave); transition:.2s; box-shadow:0 2px 6px rgba(0,0,0,.4);
+}
+.toggle input:checked + .trilho{background:rgba(127,216,162,.3); border-color:var(--verde)}
+.toggle input:checked + .trilho .bola{transform:translateX(20px); background:var(--verde)}
+.toggle input:disabled{cursor:not-allowed}
+.toggle input:disabled + .trilho{opacity:.5}
+
+/* ---------------- Anexar comprovante na tabela ---------------- */
+.anexar-btn{
+  font-family:var(--f-sans); font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--rose-claro); background:none; border:1px dashed var(--borda-forte); border-radius:8px;
+  padding:5px 10px; cursor:pointer; display:inline-block;
+}
+.anexar-btn:hover{border-color:var(--rose); background:rgba(140,18,38,.16)}
+.anexar-btn input{display:none}
+
+/* ---------------- Modal ---------------- */
+.modal-fundo{
+  display:none; position:fixed; inset:0; z-index:50; background:rgba(10,2,5,.72);
+  padding:40px 16px; overflow-y:auto;
+}
+.modal-fundo.on{display:block}
+.modal-caixa{max-width:460px; margin:0 auto; position:relative}
+.modal-fechar{
+  position:absolute; top:14px; right:14px; background:none; border:none; color:var(--creme-suave);
+  font-size:24px; cursor:pointer; line-height:1; padding:4px;
+}
+.modal-fechar:hover{color:var(--rose-claro)}
 
 .tabela-box{overflow-x:auto; border:1px solid var(--borda); border-radius:12px; background:rgba(46,8,13,.6)}
 table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:720px}
@@ -350,7 +390,6 @@ tr:hover td{background:rgba(255,255,255,.025)}
     padding:10px 0; border-bottom:1px solid rgba(209,128,137,.08); white-space:normal; text-align:right;
   }
   td:last-child{border-bottom:none; justify-content:center}
-  td:last-child .mini-btn{width:100%}
   td::before{
     content:attr(data-label); flex:none; font-family:var(--f-sans); font-size:9px; font-weight:700;
     letter-spacing:.14em; text-transform:uppercase; color:var(--creme-suave); text-align:left;
