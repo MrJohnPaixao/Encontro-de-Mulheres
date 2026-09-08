@@ -733,19 +733,15 @@ var IMG_QRPIX  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAFoAQAAAABS
       : 'Sua vaga está reservada! O comprovante é opcional — serve só para uma simples conferência e gestão das inscrições. Se quiser, envie pelo WhatsApp quando puder.';
     $('sucesso').classList.add('on');
 
-    var comprovante = [
+    var mensagem = [
       '🔥 Inscrição confirmada — Encontro de Mulheres',
       '',
       'Nome: ' + ($('nome').value.trim() || '-'),
       'Protocolo: ' + r.protocolo,
       'Data: 07 de outubro, 19h — Sítio Sabiá',
-      'Valor: R$ 60,00',
-      '',
-      r.comComprovante
-        ? 'Comprovante já enviado, só avisando! 🙌'
-        : 'Vou enviar o comprovante por aqui quando puder — sem pressa!'
+      'Valor: R$ 60,00'
     ].join('\n');
-    $('linkZap').href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(comprovante);
+    $('linkZap').href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(mensagem);
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
